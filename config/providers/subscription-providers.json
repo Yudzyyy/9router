@@ -1,0 +1,77 @@
+{
+  "provider": "subscription-tier",
+  "description": "Premium paid providers - high quality models",
+  "providers": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "endpoint": "https://api.openai.com/v1",
+      "costPer1k": 0.03,
+      "description": "GPT-4, GPT-5.5 - industry standard",
+      "models": [
+        {
+          "id": "gpt-5.5",
+          "name": "GPT-5.5",
+          "costPer1k": 0.03,
+          "contextWindow": 128000,
+          "description": "Latest GPT model"
+        },
+        {
+          "id": "gpt-4-turbo",
+          "name": "GPT-4 Turbo",
+          "costPer1k": 0.03,
+          "contextWindow": 128000,
+          "description": "Fast GPT-4"
+        }
+      ],
+      "authRequired": true,
+      "authType": "api-key",
+      "priority": 7
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "endpoint": "https://api.anthropic.com",
+      "costPer1k": 0.03,
+      "description": "Claude models - high quality reasoning",
+      "models": [
+        {
+          "id": "claude-opus-4.6",
+          "name": "Claude Opus 4.6",
+          "costPer1k": 0.03,
+          "contextWindow": 200000,
+          "description": "Most capable Claude"
+        },
+        {
+          "id": "claude-sonnet-4.5",
+          "name": "Claude Sonnet 4.5",
+          "costPer1k": 0.01,
+          "contextWindow": 200000,
+          "description": "Balanced Claude"
+        }
+      ],
+      "authRequired": true,
+      "authType": "api-key",
+      "priority": 8
+    },
+    {
+      "id": "github-copilot",
+      "name": "GitHub Copilot",
+      "endpoint": "https://api.githubcopilot.com/v1",
+      "costPer1k": 0,
+      "description": "Free for GitHub users via subscription",
+      "models": [
+        {
+          "id": "cc/claude-opus-4.7",
+          "name": "Claude (via Copilot)",
+          "costPer1k": 0,
+          "contextWindow": 200000,
+          "description": "Claude via GitHub Copilot subscription"
+        }
+      ],
+      "authRequired": true,
+      "authType": "oauth",
+      "priority": 7
+    }
+  ]
+}

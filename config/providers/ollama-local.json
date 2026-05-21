@@ -1,0 +1,57 @@
+{
+  "provider": "ollama",
+  "type": "local",
+  "endpoint": "http://10.15.17.190:11434",
+  "name": "Ollama Local",
+  "description": "Local Ollama instance - privacy-first, zero cost",
+  "models": [
+    {
+      "id": "ollama/gemma",
+      "name": "Gemma",
+      "contextWindow": 8192,
+      "costPer1k": 0,
+      "description": "Google's Gemma model (lightweight, fast)"
+    },
+    {
+      "id": "ollama/qwen",
+      "name": "Qwen",
+      "contextWindow": 8192,
+      "costPer1k": 0,
+      "description": "Alibaba Qwen model (fast, good quality)"
+    },
+    {
+      "id": "ollama/deepseek",
+      "name": "DeepSeek",
+      "contextWindow": 4096,
+      "costPer1k": 0,
+      "description": "DeepSeek model (specialized)"
+    },
+    {
+      "id": "ollama/mistral",
+      "name": "Mistral",
+      "contextWindow": 8192,
+      "costPer1k": 0,
+      "description": "Mistral model (open source, high quality)"
+    },
+    {
+      "id": "ollama/llama",
+      "name": "Llama",
+      "contextWindow": 8192,
+      "costPer1k": 0,
+      "description": "Meta Llama model (flagship open source)"
+    }
+  ],
+  "capabilities": {
+    "chat": true,
+    "completion": true,
+    "embedding": false,
+    "streaming": true
+  },
+  "authRequired": false,
+  "priority": 1,
+  "fallbackEnabled": true,
+  "healthCheckPath": "/api/tags",
+  "healthCheckMethod": "GET",
+  "timeoutMs": 10000,
+  "headers": {}
+}

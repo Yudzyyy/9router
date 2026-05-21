@@ -1,0 +1,122 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: 9router-postgres
+    environment:
+      POSTGRES_USER: 9router
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme123}
+      POSTGRES_DB: 9router
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/02-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U 9router -d 9router"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - 9router_network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: 9router-redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "PING"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - 9router_network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  9router:
+    image: ghcr.io/yudzyyy/9router:latest
+    container_name: 9router-app
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-20128}
+      HOSTNAME: ${HOSTNAME:-0.0.0.0}
+      NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL:-http://localhost:20128}
+      DATABASE_URL: postgresql://9router:${POSTGRES_PASSWORD:-changeme123}@postgres:5432/9router
+      REDIS_URL: redis://redis:6379
+      
+      # Ollama Configuration
+      OLLAMA_ENDPOINT: ${OLLAMA_ENDPOINT:-http://10.15.17.190:11434}
+      OLLAMA_ENABLED: ${OLLAMA_ENABLED:-true}
+      OLLAMA_MODELS: ${OLLAMA_MODELS:-gemma,qwen,deepseek,mistral,llama}
+      OLLAMA_TIMEOUT_MS: ${OLLAMA_TIMEOUT_MS:-10000}
+      ENABLE_OLLAMA_ROUTING: ${ENABLE_OLLAMA_ROUTING:-true}
+      
+      # Features
+      ENABLE_REQUEST_LOGS: ${ENABLE_REQUEST_LOGS:-true}
+      ENABLE_RTK_TOKEN_SAVER: ${ENABLE_RTK_TOKEN_SAVER:-true}
+      ENABLE_MULTI_TENANT: ${ENABLE_MULTI_TENANT:-true}
+      
+      # Auth
+      INITIAL_PASSWORD: ${INITIAL_PASSWORD:-ChangeMe123!}
+      JWT_SECRET: ${JWT_SECRET:-change-in-production}
+      
+      # Providers
+      PROVIDERS_FREE_KIRO_ENABLED: ${PROVIDERS_FREE_KIRO_ENABLED:-true}
+      PROVIDERS_FREE_OPENCODE_ENABLED: ${PROVIDERS_FREE_OPENCODE_ENABLED:-true}
+      GLM_API_KEY: ${GLM_API_KEY:-}
+      MINIMAX_API_KEY: ${MINIMAX_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      
+      # Logging
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      DB_REQUEST_LOG_ENABLED: ${DB_REQUEST_LOG_ENABLED:-true}
+    
+    ports:
+      - "20128:20128"
+    
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:20128/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    networks:
+      - 9router_network
+    
+    restart: unless-stopped
+    
+    # Allow reaching external Ollama at 10.15.17.190
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  9router_network:
+    driver: bridge

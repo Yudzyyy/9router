@@ -1,0 +1,53 @@
+{
+  "provider": "cheap-tier",
+  "description": "Budget-friendly paid providers - use as fallback",
+  "providers": [
+    {
+      "id": "glm",
+      "name": "Zhipu GLM",
+      "endpoint": "https://open.bigmodel.cn/api/paas/v4",
+      "costPer1k": 0.0006,
+      "description": "Ultra-cheap ($0.6/1M tokens)",
+      "models": [
+        {
+          "id": "glm/glm-5.1",
+          "name": "GLM-5.1",
+          "costPer1k": 0.0006,
+          "contextWindow": 128000,
+          "description": "Fast, cheap"
+        },
+        {
+          "id": "glm/glm-4.7",
+          "name": "GLM-4.7",
+          "costPer1k": 0.0006,
+          "contextWindow": 128000,
+          "description": "Powerful, budget-friendly"
+        }
+      ],
+      "authRequired": true,
+      "authType": "api-key",
+      "priority": 5,
+      "resetSchedule": "daily-10am"
+    },
+    {
+      "id": "minimax",
+      "name": "MiniMax",
+      "endpoint": "https://api.minimax.chat/v1",
+      "costPer1k": 0.0002,
+      "description": "Cheapest option ($0.2/1M tokens)",
+      "models": [
+        {
+          "id": "minimax/MiniMax-M2.7",
+          "name": "MiniMax M2.7",
+          "costPer1k": 0.0002,
+          "contextWindow": 200000,
+          "description": "Extreme budget option"
+        }
+      ],
+      "authRequired": true,
+      "authType": "api-key",
+      "priority": 6,
+      "resetSchedule": "5-hour-rolling"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "provider": "free-tier",
+  "description": "Free AI providers - unlimited, no cost",
+  "providers": [
+    {
+      "id": "kiro",
+      "name": "Kiro AI",
+      "endpoint": "https://api.kiro.ai/v1",
+      "description": "Claude 4.5 + GLM-5 + MiniMax - unlimited FREE",
+      "models": [
+        {
+          "id": "kr/claude-opus-4.7",
+          "name": "Claude Opus 4.7",
+          "costPer1k": 0,
+          "contextWindow": 200000,
+          "description": "Highest quality, best reasoning"
+        },
+        {
+          "id": "kr/claude-sonnet-4.5",
+          "name": "Claude Sonnet 4.5",
+          "costPer1k": 0,
+          "contextWindow": 200000,
+          "description": "Fast and smart, balanced"
+        },
+        {
+          "id": "kr/glm-5",
+          "name": "GLM-5",
+          "costPer1k": 0,
+          "contextWindow": 128000,
+          "description": "Alibaba's GLM model"
+        },
+        {
+          "id": "kr/minimax-m2.5",
+          "name": "MiniMax M2.5",
+          "costPer1k": 0,
+          "contextWindow": 200000,
+          "description": "Fast, good quality"
+        }
+      ],
+      "authRequired": true,
+      "authType": "oauth",
+      "priority": 2
+    },
+    {
+      "id": "opencode-free",
+      "name": "OpenCode Free",
+      "endpoint": "https://api.opencode.ai/v1",
+      "description": "No auth required, auto-fetch models - unlimited FREE",
+      "models": [],
+      "authRequired": false,
+      "autoDiscoverModels": true,
+      "priority": 3
+    },
+    {
+      "id": "vertex-ai",
+      "name": "Vertex AI",
+      "endpoint": "https://vertexai.googleapis.com",
+      "description": "$300 free credits - Gemini Pro + GLM-5 + DeepSeek",
+      "models": [
+        {
+          "id": "vertex/gemini-pro",
+          "name": "Gemini Pro",
+          "costPer1k": 0,
+          "description": "Google Gemini (within free tier)"
+        }
+      ],
+      "authRequired": true,
+      "authType": "service-account",
+      "priority": 4
+    }
+  ]
+}

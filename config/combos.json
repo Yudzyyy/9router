@@ -1,0 +1,175 @@
+{
+  "combos": [
+    {
+      "id": "local-first",
+      "name": "Local First (Default)",
+      "description": "Prefer local Ollama, fallback to cloud",
+      "priority": 1,
+      "tiers": [
+        {
+          "tier": 1,
+          "provider": "ollama",
+          "models": ["ollama/gemma", "ollama/qwen", "ollama/deepseek", "ollama/mistral", "ollama/llama"],
+          "priority": 1,
+          "description": "Local Ollama - free, fast, private"
+        },
+        {
+          "tier": 2,
+          "provider": "kiro",
+          "models": ["kr/claude-opus-4.7", "kr/glm-5"],
+          "priority": 2,
+          "description": "Kiro AI - free unlimited"
+        },
+        {
+          "tier": 3,
+          "provider": "glm",
+          "models": ["glm/glm-5.1"],
+          "priority": 3,
+          "description": "GLM - ultra cheap fallback"
+        }
+      ],
+      "fallbackOnError": true,
+      "features": {
+        "rtkTokenSaver": true,
+        "cavemanMode": false
+      }
+    },
+    {
+      "id": "local-only",
+      "name": "Local Only (Privacy)",
+      "description": "Only use local Ollama - no cloud fallback",
+      "priority": 2,
+      "tiers": [
+        {
+          "tier": 1,
+          "provider": "ollama",
+          "models": ["ollama/gemma", "ollama/qwen", "ollama/deepseek", "ollama/mistral", "ollama/llama"],
+          "priority": 1,
+          "description": "Local Ollama only"
+        }
+      ],
+      "fallbackOnError": false,
+      "features": {
+        "rtkTokenSaver": true,
+        "cavemanMode": false
+      },
+      "tags": ["privacy", "air-gapped", "sensitive-data"]
+    },
+    {
+      "id": "free-forever",
+      "name": "Free Forever (Cost: $0)",
+      "description": "All free cloud providers, no subscriptions",
+      "priority": 3,
+      "tiers": [
+        {
+          "tier": 1,
+          "provider": "kiro",
+          "models": ["kr/claude-opus-4.7", "kr/glm-5", "kr/minimax-m2.5"],
+          "priority": 1,
+          "description": "Kiro - free unlimited"
+        },
+        {
+          "tier": 2,
+          "provider": "opencode-free",
+          "models": ["oc/auto"],
+          "priority": 2,
+          "description": "OpenCode Free - no auth"
+        },
+        {
+          "tier": 3,
+          "provider": "vertex-ai",
+          "models": ["vertex/gemini-pro"],
+          "priority": 3,
+          "description": "Vertex - $300 free credits"
+        }
+      ],
+      "fallbackOnError": true,
+      "features": {
+        "rtkTokenSaver": true,
+        "cavemanMode": true
+      }
+    },
+    {
+      "id": "cloud-backup",
+      "name": "Cloud Backup (Ollama → Cloud)",
+      "description": "Local Ollama, then cloud providers",
+      "priority": 4,
+      "tiers": [
+        {
+          "tier": 1,
+          "provider": "ollama",
+          "models": ["ollama/gemma", "ollama/qwen", "ollama/deepseek", "ollama/mistral", "ollama/llama"],
+          "priority": 1,
+          "description": "Local Ollama first"
+        },
+        {
+          "tier": 2,
+          "provider": "glm",
+          "models": ["glm/glm-5.1"],
+          "priority": 2,
+          "description": "GLM cheap fallback"
+        },
+        {
+          "tier": 3,
+          "provider": "kiro",
+          "models": ["kr/claude-opus-4.7"],
+          "priority": 3,
+          "description": "Kiro free fallback"
+        }
+      ],
+      "fallbackOnError": true,
+      "features": {
+        "rtkTokenSaver": true,
+        "cavemanMode": false
+      }
+    },
+    {
+      "id": "always-on",
+      "name": "Always On (Maximum Reliability)",
+      "description": "5-tier fallback chain - zero downtime",
+      "priority": 5,
+      "tiers": [
+        {
+          "tier": 1,
+          "provider": "ollama",
+          "models": ["ollama/qwen", "ollama/mistral"],
+          "priority": 1,
+          "description": "Best local models"
+        },
+        {
+          "tier": 2,
+          "provider": "openai",
+          "models": ["gpt-5.5"],
+          "priority": 2,
+          "description": "Premium cloud"
+        },
+        {
+          "tier": 3,
+          "provider": "anthropic",
+          "models": ["claude-opus-4.6"],
+          "priority": 3,
+          "description": "Premium alternative"
+        },
+        {
+          "tier": 4,
+          "provider": "glm",
+          "models": ["glm/glm-5.1"],
+          "priority": 4,
+          "description": "Cheap fallback"
+        },
+        {
+          "tier": 5,
+          "provider": "kiro",
+          "models": ["kr/claude-opus-4.7"],
+          "priority": 5,
+          "description": "Free emergency fallback"
+        }
+      ],
+      "fallbackOnError": true,
+      "features": {
+        "rtkTokenSaver": true,
+        "cavemanMode": false
+      }
+    }
+  ]
+}
